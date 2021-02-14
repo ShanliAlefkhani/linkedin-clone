@@ -39,6 +39,21 @@ class PersonSerializer(serializers.ModelSerializer):
             return person
 
 
+class UpdatePersonSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Person
+        fields = ['name', 'surname', 'birthday', 'gender']
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.surname = validated_data.get('surname', instance.surname)
+        instance.birthday = validated_data.get('birthday', instance.birthday)
+        instance.gender = validated_data.get('gender', instance.gender)
+        instance.save()
+        return instance
+
+
 class CompanySerializer(serializers.ModelSerializer):
     user = UserSerializer(required=True)
     username = serializers.CharField(read_only=True)
@@ -59,3 +74,15 @@ class CompanySerializer(serializers.ModelSerializer):
                                                                 address=validated_data.get('address'),
                                                                 telephone_number=validated_data.get('telephone_number'))
             return company
+
+
+class UpdateCompanySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Company
+        fields = ['name', 'creation_date', 'address', 'telephone_number']
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.creation_date = validated_data.get('creation_date', instance.creation_date)
+        instance.address = validated_data.get('address', instance.address)
+        instance.telephone_number = validated_data.get('telephone_number', instance.telephone_number)
