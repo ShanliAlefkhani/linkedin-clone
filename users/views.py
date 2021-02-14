@@ -1,8 +1,8 @@
-from rest_framework import generics, status
+from rest_framework import generics, status, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import Person, Company, User
-from users.serializers import PersonSerializer, CompanySerializer
+from users.serializers import PersonSerializer, CompanySerializer, UpdatePersonSerializer, UpdateCompanySerializer
 
 
 class PersonList(generics.ListCreateAPIView):
@@ -39,3 +39,23 @@ class SignUpCompany(generics.CreateAPIView):
             serializer.create(validated_data=request.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateProfile(generics.RetrieveUpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    queryset = User.objects.all()
+
+    def get_object(self):
+        try:
+            person = self.request.user.person
+            return person
+        except:
+            return self.request.user.company
+
+    def get_serializer_class(self):
+        try:
+            person = self.request.user.person
+            return UpdatePersonSerializer
+        except:
+            return UpdateCompanySerializer
+
