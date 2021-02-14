@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from jobs.models import Job, Application
-from users.serializers import CompanySerializer
+from users.serializers import CompanySerializer, PersonSerializer
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -46,3 +46,22 @@ class ApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Application
         fields = ('job',)
+
+
+class ApplicationListSerializer(serializers.ModelSerializer):
+    job = serializers.SerializerMethodField(read_only=True)
+    person = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = Application
+        fields = ('job', 'person')
+
+    def get_person(self, obj):
+        person = PersonSerializer(obj.person).data
+        person.pop('user')
+        return person
+
+    def get_job(self, obj):
+        job = JobSerializer(obj.job).data
+        job.pop('owner_company')
+        return job
