@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from users import views
 from users.views import SignUpPerson, SignUpCompany
 
@@ -7,4 +7,5 @@ urlpatterns = [
     path('list-company/', views.CompanyList.as_view()),
     path('signup-person/', SignUpPerson.as_view()),
     path('signup-company/', SignUpCompany.as_view()),
+    path('', include('rest_framework.urls')),
 ]
