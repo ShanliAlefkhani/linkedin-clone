@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from jobs.models import Job, Application
-from jobs.serializers import JobSerializer, JobUpdateSerializer, ApplicationSerializer
+from jobs.serializers import JobSerializer, JobUpdateSerializer, ApplicationSerializer, ApplicationListSerializer
 from users.permissions import IsCompany, IsOwner
 
 
@@ -50,3 +50,11 @@ class Apply(generics.CreateAPIView):
             submit.save()
             return Response("Your Application Added Successfully", status=status.HTTP_200_OK)
         return Response("Job was expired", status=status.HTTP_400_BAD_REQUEST)
+
+
+class ApplicationList(generics.ListAPIView):
+    def get_queryset(self):
+        return Application.objects.filter(job__owner_company=self.request.user.company)
+
+    serializer_class = ApplicationListSerializer
+    permission_classes = [IsAuthenticated]
