@@ -24,3 +24,19 @@ class JobSerializer(serializers.ModelSerializer):
         owner_company = CompanySerializer(obj.owner_company).data
         owner_company.pop('user')
         return owner_company
+
+
+class JobUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = ('title', 'image', 'expire_date', 'field', 'salary', 'working_hours')
+
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.image = validated_data.get('image', instance.image)
+        instance.expire_date = validated_data.get('expire_date', instance.expire_date)
+        instance.field = validated_data.get('field', instance.field)
+        instance.salary = validated_data.get('salary', instance.salary)
+        instance.working_hours = validated_data.get('working_hours', instance.working_hours)
+        instance.save()
+        return instance
