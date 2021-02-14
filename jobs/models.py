@@ -15,4 +15,4 @@ class Job(models.Model):
     expire_date = models.DateField()
     field = models.CharField(choices=FIELDS_CHOICES, max_length=1)
     salary = models.IntegerField(default=0)
-    hours = models.IntegerField()
+    working_hours = models.IntegerField()
