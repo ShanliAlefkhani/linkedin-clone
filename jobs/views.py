@@ -3,7 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from jobs.models import Job
 from jobs.serializers import JobSerializer
-from users.permissions import IsCompany
+from users.permissions import IsCompany, IsOwner
 
 
 class JobList(generics.ListAPIView):
@@ -23,3 +23,15 @@ class JobCreate(generics.CreateAPIView):
             serializer.create(validated_data=request.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+
+
+class JobUpdate(generics.RetrieveUpdateAPIView):
+    queryset = Job.objects.all()
+    serializer_class = JobSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
+
+    def get_object(self):
+        return self.request.user.company
+
+    def get_serializer_class(self):
+        return JobSerializer
