@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from jobs.models import Job
+from users.serializers import CompanySerializer
 
 
 class JobSerializer(serializers.ModelSerializer):
@@ -18,3 +19,8 @@ class JobSerializer(serializers.ModelSerializer):
                                                     salary=validated_data.get('salary'),
                                                     working_hours=validated_data.get('working_hours'))
         return job
+
+    def get_owner_company(self, obj):
+        owner_company = CompanySerializer(obj.owner_company).data
+        owner_company.pop('user')
+        return owner_company
