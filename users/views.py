@@ -2,7 +2,7 @@ from rest_framework import generics, status, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import Person, Company, User
-from users.serializers import PersonSerializer, CompanySerializer, UpdatePersonSerializer, UpdateCompanySerializer
+from users.serializers import PersonSerializer, CompanySerializer, PersonUpdateSerializer, CompanyUpdateSerializer
 
 
 class PersonList(generics.ListCreateAPIView):
@@ -15,7 +15,7 @@ class CompanyList(generics.ListCreateAPIView):
     serializer_class = CompanySerializer
 
 
-class SignUpPerson(generics.CreateAPIView):
+class PersonSignUp(generics.CreateAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = PersonSerializer
@@ -28,7 +28,7 @@ class SignUpPerson(generics.CreateAPIView):
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
-class SignUpCompany(generics.CreateAPIView):
+class CompanySignUp(generics.CreateAPIView):
     permission_classes = [AllowAny]
     queryset = User.objects.all()
     serializer_class = CompanySerializer
@@ -41,7 +41,7 @@ class SignUpCompany(generics.CreateAPIView):
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateProfile(generics.RetrieveUpdateAPIView):
+class ProfileUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
 
@@ -55,6 +55,6 @@ class UpdateProfile(generics.RetrieveUpdateAPIView):
     def get_serializer_class(self):
         try:
             person = self.request.user.person
-            return UpdatePersonSerializer
+            return PersonUpdateSerializer
         except:
-            return UpdateCompanySerializer
+            return CompanyUpdateSerializer

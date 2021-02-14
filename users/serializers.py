@@ -39,7 +39,7 @@ class PersonSerializer(serializers.ModelSerializer):
             return person
 
 
-class UpdatePersonSerializer(serializers.ModelSerializer):
+class PersonUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Person
@@ -76,7 +76,7 @@ class CompanySerializer(serializers.ModelSerializer):
             return company
 
 
-class UpdateCompanySerializer(serializers.ModelSerializer):
+class CompanyUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
         fields = ['name', 'creation_date', 'address', 'telephone_number']

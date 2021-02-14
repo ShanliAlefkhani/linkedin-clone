@@ -2,7 +2,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from jobs.models import Job
-from jobs.serializers import JobSerializer
+from jobs.serializers import JobSerializer, JobUpdateSerializer
 from users.permissions import IsCompany, IsOwner
 
 
@@ -34,4 +34,4 @@ class JobUpdate(generics.RetrieveUpdateAPIView):
         return self.request.user.company
 
     def get_serializer_class(self):
-        return JobSerializer
+        return JobUpdateSerializer

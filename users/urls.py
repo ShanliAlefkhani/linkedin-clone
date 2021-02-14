@@ -1,12 +1,12 @@
 from django.urls import path, include
 from users import views
-from users.views import SignUpPerson, SignUpCompany, UpdateProfile
+from users.views import PersonSignUp, CompanySignUp, ProfileUpdate
 
 urlpatterns = [
-    path('list-person/', views.PersonList.as_view()),
-    path('list-company/', views.CompanyList.as_view()),
-    path('signup-person/', SignUpPerson.as_view()),
-    path('signup-company/', SignUpCompany.as_view()),
-    path('update-profile/', UpdateProfile.as_view()),
+    path('person-list/', views.PersonList.as_view()),
+    path('company-list/', views.CompanyList.as_view()),
+    path('person-signup/', PersonSignUp.as_view()),
+    path('company-signup/', CompanySignUp.as_view()),
+    path('profile-update/', ProfileUpdate.as_view()),
     path('', include('rest_framework.urls')),
 ]
