@@ -58,4 +58,3 @@ class UpdateProfile(generics.RetrieveUpdateAPIView):
             return UpdatePersonSerializer
         except:
             return UpdateCompanySerializer
-
