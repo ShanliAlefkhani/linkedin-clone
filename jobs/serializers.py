@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from jobs.models import Job
+from jobs.models import Job, Application
 from users.serializers import CompanySerializer
 
 
@@ -40,3 +40,9 @@ class JobUpdateSerializer(serializers.ModelSerializer):
         instance.working_hours = validated_data.get('working_hours', instance.working_hours)
         instance.save()
         return instance
+
+
+class ApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = ('job',)
