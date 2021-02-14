@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import Company
+from users.models import Company, Person
 
 
 class Job(models.Model):
@@ -16,3 +16,8 @@ class Job(models.Model):
     field = models.CharField(choices=FIELDS_CHOICES, max_length=1)
     salary = models.IntegerField(default=0)
     working_hours = models.IntegerField()
+
+
+class Application(models.Model):
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, on_delete=models.CASCADE)
