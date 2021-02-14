@@ -17,6 +17,9 @@ class Job(models.Model):
     salary = models.IntegerField(default=0)
     working_hours = models.IntegerField()
 
+    def __str__(self):
+        return self.title + "@" + self.owner_company.name
+
 
 class Application(models.Model):
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
