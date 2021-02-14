@@ -1,0 +1,10 @@
+abstract==2020.7.26
+asgiref==3.3.1
+base32hex==1.0.2
+colouration==2020.7.26
+Django==3.1.6
+djangorestframework==3.12.2
+graphviz==0.16
+Pillow==8.1.0
+pytz==2021.1
+sqlparse==0.4.1
