@@ -1,14 +1,8 @@
 from django.db import models
-from users.models import Company, Person
+from users.models import Company, Person, FIELDS_CHOICES
 
 
 class Job(models.Model):
-    FIELDS_CHOICES = (
-        ('P', 'Programmer'),
-        ('T', 'Tailor'),
-        ('M', 'Mechanical Engineer'),
-        ('O', 'Other')
-    )
     owner_company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='Job-Image/')

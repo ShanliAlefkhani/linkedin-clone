@@ -42,13 +42,14 @@ class PersonSerializer(serializers.ModelSerializer):
 class PersonUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Person
-        fields = ['name', 'surname', 'birthday', 'gender', 'resume']
+        fields = ['name', 'surname', 'birthday', 'gender', 'field', 'resume']
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.surname = validated_data.get('surname', instance.surname)
         instance.birthday = validated_data.get('birthday', instance.birthday)
         instance.gender = validated_data.get('gender', instance.gender)
+        instance.field = validated_data.get('field', instance.field)
         instance.resume = validated_data.get('resume', instance.resume)
         instance.save()
         return instance
@@ -79,10 +80,13 @@ class CompanySerializer(serializers.ModelSerializer):
 class CompanyUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Company
-        fields = ['name', 'creation_date', 'address', 'telephone_number']
+        fields = ['name', 'creation_date', 'address', 'telephone_number', 'field']
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.creation_date = validated_data.get('creation_date', instance.creation_date)
         instance.address = validated_data.get('address', instance.address)
         instance.telephone_number = validated_data.get('telephone_number', instance.telephone_number)
+        instance.field = validated_data.get('field', instance.field)
+        instance.save()
+        return instance
