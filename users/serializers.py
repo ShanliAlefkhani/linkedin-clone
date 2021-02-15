@@ -40,16 +40,16 @@ class PersonSerializer(serializers.ModelSerializer):
 
 
 class PersonUpdateSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Person
-        fields = ['name', 'surname', 'birthday', 'gender']
+        fields = ['name', 'surname', 'birthday', 'gender', 'resume']
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name', instance.name)
         instance.surname = validated_data.get('surname', instance.surname)
         instance.birthday = validated_data.get('birthday', instance.birthday)
         instance.gender = validated_data.get('gender', instance.gender)
+        instance.resume = validated_data.get('resume', instance.resume)
         instance.save()
         return instance
 

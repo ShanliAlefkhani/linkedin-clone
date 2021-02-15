@@ -2,12 +2,13 @@ from rest_framework import generics, status, permissions
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import Person, Company, User
+from users.permissions import IsPerson
 from users.serializers import PersonSerializer, CompanySerializer, PersonUpdateSerializer, CompanyUpdateSerializer
 
 
 class PersonList(generics.ListCreateAPIView):
     queryset = Person.objects.all()
-    serializer_class = PersonSerializer
+    serializer_class = PersonUpdateSerializer
 
 
 class CompanyList(generics.ListCreateAPIView):
@@ -46,15 +47,13 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
     queryset = User.objects.all()
 
     def get_object(self):
-        try:
-            person = self.request.user.person
-            return person
-        except:
+        if IsPerson:
+            return self.request.user.person
+        else:
             return self.request.user.company
 
     def get_serializer_class(self):
-        try:
-            person = self.request.user.person
+        if IsPerson:
             return PersonUpdateSerializer
-        except:
+        else:
             return CompanyUpdateSerializer

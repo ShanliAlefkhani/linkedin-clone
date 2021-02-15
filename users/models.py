@@ -12,6 +12,7 @@ class Person(models.Model):
     surname = models.CharField(max_length=100)
     birthday = models.DateField('birthday')
     gender = models.CharField(choices=GENDER_CHOICES, max_length=1)
+    resume = models.ImageField(upload_to='Resume-Image/', null=True)
 
     class Meta:
         ordering = ['name']
