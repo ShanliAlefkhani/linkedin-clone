@@ -3,7 +3,7 @@ from users.models import Company, Person, FIELDS_CHOICES
 
 
 class Job(models.Model):
-    owner_company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to='Job-Image/')
     expire_date = models.DateField()
@@ -12,7 +12,7 @@ class Job(models.Model):
     working_hours = models.IntegerField()
 
     def __str__(self):
-        return self.title + "@" + self.owner_company.name
+        return self.title + "@" + self.company.name
 
 
 class Application(models.Model):

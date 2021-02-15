@@ -3,7 +3,7 @@ from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from jobs.models import Job, Application
-from jobs.serializers import JobSerializer, JobUpdateSerializer, ApplicationSerializer, ApplicationListSerializer
+from jobs.serializers import JobSerializer, ApplicationSerializer, ApplicationListSerializer, JobUpdateSerializer
 from users.permissions import IsCompany, IsOwner
 
 
@@ -28,14 +28,8 @@ class JobCreate(generics.CreateAPIView):
 
 class JobUpdate(generics.RetrieveUpdateAPIView):
     queryset = Job.objects.all()
-    serializer_class = JobSerializer
+    serializer_class = JobUpdateSerializer
     permission_classes = [IsAuthenticated, IsOwner]
-
-    def get_object(self):
-        return self.request.user.company
-
-    def get_serializer_class(self):
-        return JobUpdateSerializer
 
 
 class Apply(generics.CreateAPIView):
@@ -53,8 +47,8 @@ class Apply(generics.CreateAPIView):
 
 
 class ApplicationList(generics.ListAPIView):
-    def get_queryset(self):
-        return Application.objects.filter(job__owner_company=self.request.user.company)
-
     serializer_class = ApplicationListSerializer
     permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Application.objects.filter(job__company=self.request.user.company)
