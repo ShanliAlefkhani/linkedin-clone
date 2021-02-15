@@ -1,18 +1,23 @@
+from django.contrib.auth import authenticate
 from rest_framework import generics, status, permissions
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import Person, Company, User
-from users.serializers import PersonSerializer, CompanySerializer, PersonUpdateSerializer, CompanyUpdateSerializer
+from users.serializers import PersonSerializer, CompanySerializer, PersonUpdateSerializer, CompanyUpdateSerializer, \
+    LoginSerializer
 
 
 class PersonList(generics.ListCreateAPIView):
     queryset = Person.objects.all()
     serializer_class = PersonUpdateSerializer
+    authentication_classes = [TokenAuthentication]
 
 
 class CompanyList(generics.ListCreateAPIView):
     queryset = Company.objects.all()
     serializer_class = CompanySerializer
+    authentication_classes = [TokenAuthentication]
 
 
 class PersonSignUp(generics.CreateAPIView):
@@ -30,6 +35,7 @@ class CompanySignUp(generics.CreateAPIView):
 class ProfileUpdate(generics.RetrieveUpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
+    authentication_classes = [TokenAuthentication]
 
     def get_object(self):
         try:
@@ -44,3 +50,18 @@ class ProfileUpdate(generics.RetrieveUpdateAPIView):
             return PersonUpdateSerializer
         except:
             return CompanyUpdateSerializer
+
+
+class Login(generics.CreateAPIView):
+    serializer_class = LoginSerializer
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        username = data.get('username')
+        password = data.get('password')
+        user = authenticate(username, password)
+        Token = Token.objects.get_or_create(user)
+        return Response(
+            {'token': Token},
+            status=200
+        )
