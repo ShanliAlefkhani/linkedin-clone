@@ -7,6 +7,6 @@ urlpatterns = [
     path('company-list/', views.CompanyList.as_view()),
     path('person-signup/', PersonSignUp.as_view()),
     path('company-signup/', CompanySignUp.as_view()),
-    path('profile-update/', ProfileUpdate.as_view()),
+    path('accounts/profile/', ProfileUpdate.as_view()),
     path('', include('rest_framework.urls')),
 ]
