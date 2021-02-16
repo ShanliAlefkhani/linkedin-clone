@@ -14,7 +14,7 @@ class JobList(generics.ListAPIView):
     serializer_class = JobSerializer
     permission_classes = [IsAuthenticated]
     filter_backends = [SalaryFilter]
-    ordering_fields = ['expire_date', 'hours', 'salary']
+    ordering_fields = ['expire_date', 'salary', 'working_hours']
     search_fields = ['title']
     authentication_classes = [TokenAuthentication]
 
