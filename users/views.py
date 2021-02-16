@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate
-from rest_framework import generics, status, permissions
+from rest_framework import generics, permissions
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from users.models import Person, Company, User
@@ -60,8 +61,8 @@ class Login(generics.CreateAPIView):
         username = data.get('username')
         password = data.get('password')
         user = authenticate(username, password)
-        Token = Token.objects.get_or_create(user)
+        token, _ = Token.objects.get_or_create(user=user)
         return Response(
-            {'token': Token},
+            {'token': token},
             status=200
         )

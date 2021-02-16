@@ -1,7 +1,6 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
 from rest_framework.exceptions import NotAuthenticated
-
 from users.models import User, Person, Company
 from django.db import transaction
 
@@ -21,13 +20,14 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class PersonSerializer(serializers.ModelSerializer):
+    token = serializers.SerializerMethodField()
     user = UserSerializer(required=True)
     username = serializers.CharField(read_only=True)
     password = serializers.CharField(read_only=True)
 
     class Meta:
         model = Person
-        fields = ['user', 'username', 'password', 'name', 'surname', 'birthday', 'gender']
+        fields = ['token', 'user', 'username', 'password', 'name', 'surname', 'birthday', 'gender']
 
     def create(self, validated_data):
         with transaction.atomic():
@@ -49,13 +49,14 @@ class PersonUpdateSerializer(serializers.ModelSerializer):
 
 
 class CompanySerializer(serializers.ModelSerializer):
+    token = serializers.SerializerMethodField()
     user = UserSerializer(required=True)
     username = serializers.CharField(read_only=True)
     password = serializers.CharField(read_only=True)
 
     class Meta:
         model = Company
-        fields = ['user', 'username', 'password', 'name', 'creation_date', 'address', 'telephone_number']
+        fields = ['token', 'user', 'username', 'password', 'name', 'creation_date', 'address', 'telephone_number']
 
     def create(self, validated_data):
         with transaction.atomic():
